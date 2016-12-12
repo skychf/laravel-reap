@@ -2,6 +2,8 @@
 
 namespace Skychf\Reap;
 
+use DB;
+use Schema;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
 
@@ -112,10 +114,10 @@ class Reap
     public function getData($table, $max)
     {
         if (!$max) {
-            return \DB::connection($this->databaseName)->table($table)->get();
+            return DB::connection($this->databaseName)->table($table)->get();
         }
 
-        return \DB::connection($this->databaseName)->table($table)->limit($max)->get();
+        return DB::connection($this->databaseName)->table($table)->limit($max)->get();
     }
 
     /**
@@ -128,10 +130,10 @@ class Reap
         if (!is_array($data)) {
             $data = $data->toArray();
         }
-        $dataArray = array();
+        $dataArray = [];
         if (!empty($data)) {
             foreach ($data as $row) {
-                $rowArray = array();
+                $rowArray = [];
                 foreach ($row as $columnName => $columnValue) {
                     $rowArray[$columnName] = $columnValue;
                 }
@@ -148,7 +150,7 @@ class Reap
      */
     public function hasTable($table)
     {
-        return \Schema::connection($this->databaseName)->hasTable($table);
+        return Schema::connection($this->databaseName)->hasTable($table);
     }
 
     /**
@@ -195,7 +197,7 @@ class Reap
             $this->addNewLines($inserts);
             $this->addIndent($inserts, 2);
             $inserts .= sprintf(
-                "\DB::table('%s')->insert(%s);",
+                "DB::table('%s')->insert(%s);",
                 $table,
                 $this->prettifyArray($chunk)
             );

@@ -2,6 +2,7 @@
 
 namespace Skychf\Reap;
 
+use Schema;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -143,7 +144,7 @@ class ReapCommand extends Command
      */
     protected function generateFileName($table)
     {
-        if (!\Schema::hasTable($table)) {
+        if (! Schema::hasTable($table)) {
             throw new TableNotFoundException("Table $table was not found.");
         }
 
