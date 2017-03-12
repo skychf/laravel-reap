@@ -356,7 +356,7 @@ class Reap
     }
 
     /**
-     * Updates the DatabaseSeeder file's run method (kudoz to: https://github.com/JeffreyWay/Laravel-4-Generators)
+     * Updates the DatabaseSeeder file's run method
      * @param  string  $className
      * @return bool
      */
@@ -364,15 +364,15 @@ class Reap
     {
         $databaseSeederPath = database_path('seeds/DatabaseSeeder.php');
         $content = $this->files->get($databaseSeederPath);
-        if (strpos($content, "\$this->call('{$className}')") === false) {
+        if (strpos($content, "\$this->call($className::class)") === false) {
             if (
                 strpos($content, '#reap_start') &&
                 strpos($content, '#reap_end') &&
                 strpos($content, '#reap_start') < strpos($content, '#reap_end')
             ) {
-                $content = preg_replace("/(\#reap_start.+?)(\#reap_end)/us", "$1\$this->call('{$className}');{$this->newLineCharacter}{$this->indentCharacter}{$this->indentCharacter}$2", $content);
+                $content = preg_replace("/(\#reap_start.+?)(\#reap_end)/us", "$1\$this->call($className::class);{$this->newLineCharacter}{$this->indentCharacter}{$this->indentCharacter}$2", $content);
             } else {
-                $content = preg_replace("/(run\(\).+?)}/us", "$1{$this->indentCharacter}\$this->call('{$className}');{$this->newLineCharacter}{$this->indentCharacter}}", $content);
+                $content = preg_replace("/(run\(\).+?)}/us", "$1{$this->indentCharacter}\$this->call($className::class);{$this->newLineCharacter}{$this->indentCharacter}}", $content);
             }
         }
 
