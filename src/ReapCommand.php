@@ -20,7 +20,12 @@ class ReapCommand extends Command
      * The console command description.
      */
     protected $description = 'Generate seed file from table';
-
+    
+    public function handle()
+    {
+        return $this->fire();
+    }
+    
     /**
      * Execute the console command.
      *
