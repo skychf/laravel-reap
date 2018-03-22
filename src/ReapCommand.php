@@ -9,12 +9,14 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class ReapCommand extends Command
 {
+    private $reap;
+
     /**
      * The console command name.
      *
      * @var String
      */
-    protected $signature = 'db:reap';
+    protected $name = 'db:reap';
 
     /**
      * The console command description.
