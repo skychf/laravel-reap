@@ -10,7 +10,7 @@ With composer :
 {
     ...
     "require": {
-        "skychf/reap": "1.*"
+        "skychf/reap": "2.*"
     }
 }
 ```
@@ -18,12 +18,12 @@ With composer :
 Usage
 =====
 
-修改 config/app.php :
+修改 app/Console/Commands/Kernel.php :
 
 ```php
-'providers' => array(
-        'Skychf\Reap\ReapServiceProvider'
-)
+protected $commands = [
+    \Skychf\Reap\ReapCommand::class
+];
 ```
 
 ## Artisan command options

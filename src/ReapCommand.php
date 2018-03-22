@@ -14,28 +14,30 @@ class ReapCommand extends Command
      *
      * @var String
      */
-    protected $name = 'db:reap';
+    protected $signature = 'db:reap';
 
     /**
      * The console command description.
      */
     protected $description = 'Generate seed file from table';
-    
-    public function handle()
+
+
+    public function __construct(Reap $reap)
     {
-        return $this->fire();
+        $this->reap = $reap;
+        parent::__construct();
     }
-    
+
     /**
      * Execute the console command.
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         // if clean option is checked empty iSeed template in DatabaseSeeder.php
         if ($this->option('clean')) {
-            app('iseed')->cleanSection();
+            $this->reap->cleanSection();
         }
 
         $tables        = explode(",", $this->argument('tables'));
@@ -66,7 +68,7 @@ class ReapCommand extends Command
             // if file does not exist or force option is turned on generate seeder
             if (!\File::exists($fileName) || $this->option('force')) {
                 $this->printResult(
-                    app('reap')->generateSeed(
+                    $this->reap->generateSeed(
                         $table,
                         $this->option('database'),
                         $chunkSize,
@@ -81,7 +83,7 @@ class ReapCommand extends Command
             if ($this->confirm('File '.$className.' already exist. Do you wish to override it? [yes|no]')) {
                 // if user said yes overwrite old seeder
                 $this->printResult(
-                    app('reap')->generateSeed(
+                    $this->reap->generateSeed(
                         $table,
                         $this->option('database'),
                         $chunkSize, $prerunEvent,
@@ -154,7 +156,7 @@ class ReapCommand extends Command
         }
 
         // Generate class name and file name
-        $classname = app('reap')->generateClassName($table);
+        $classname = $this->reap->generateClassName($table);
         $filename = database_path($classname.'php');
         return [$filename, $classname.'.php'];
     }
