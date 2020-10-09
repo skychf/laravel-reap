@@ -103,7 +103,7 @@ class Reap
      */
     public function getSeedPath()
     {
-        return database_path('seeds');
+        return database_path('seeders');
     }
 
     /**
@@ -345,7 +345,7 @@ class Reap
      */
     public function cleanSection()
     {
-        $databaseSeederPath = database_path('seeds/DatabaseSeeder.php');
+        $databaseSeederPath = database_path('seeders/DatabaseSeeder.php');
 
         $content = $this->files->get($databaseSeederPath);
 
@@ -362,7 +362,7 @@ class Reap
      */
     public function updateDatabaseSeederRunMethod($className)
     {
-        $databaseSeederPath = database_path('seeds/DatabaseSeeder.php');
+        $databaseSeederPath = database_path('seeders/DatabaseSeeder.php');
         $content = $this->files->get($databaseSeederPath);
         if (strpos($content, "\$this->call($className::class)") === false) {
             if (
